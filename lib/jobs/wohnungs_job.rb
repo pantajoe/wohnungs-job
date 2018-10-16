@@ -1,5 +1,6 @@
 require 'pry-byebug'
-if defined?(TerminalNotifier)
+require_relative '../modules/os'
+if OS.mac?
   require 'terminal-notifier'
   require 'terminal-notifier-guard'
 else

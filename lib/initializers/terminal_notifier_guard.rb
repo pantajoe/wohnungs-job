@@ -1,4 +1,6 @@
-if defined?(TerminalNotifier)
+require_relative '../modules/os'
+
+if OS.mac?
   module TerminalNotifier
     module Guard
       OSX_BUILT_IN_SOUNDS = { :notify => 'Blow', :failed => 'Sosumi', :pending => 'Morse', :success => 'Hero' }.freeze
