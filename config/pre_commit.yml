@@ -1,0 +1,5 @@
+---
+:checks_remove: []
+:checks_add:
+- :rspec_focus
+- :rails

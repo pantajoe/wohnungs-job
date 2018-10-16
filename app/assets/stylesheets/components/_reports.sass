@@ -1,0 +1,90 @@
+.report-panel
+  .panel-block
+    &.header
+      border-radius: 0.5rem 0.5rem 0 0
+
+  .panel-heading
+    background-color: $dark-grey
+    color: $white
+
+  .further-options
+    padding: 0 1rem 0 0.5rem
+    color: $dark-grey
+    &:hover, &:active
+      cursor: pointer
+      color: $primary
+      border-radius: 0.5rem
+
+  .panel-block, .panel-tabs
+    background-color: $white
+
+  .panel-block.report
+    display: block
+    cursor: pointer
+    &.only-mobile
+      text-align: center
+      .panel-icon
+        float: left
+        line-height: 1.75em !important
+        margin: 0 !important
+      .report-controls
+        float: right
+      .created-on
+        display: inline-block
+    &:hover
+      background-color: lighten($light-grey, 2%)
+
+    .send-mail
+      cursor: pointer
+      color: $primary
+      &.disabled
+        color: darken($light-grey, 10%)
+      &:hover
+        color: $black
+
+.further-options-box
+  display: none
+  font-size: small
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important
+  border: 1px solid rgba(0, 0, 0, 0.15)
+  position: absolute
+  border-radius: 3px
+  box-shadow: -2px 2px 4px rgba(0,0,0,0.1)
+  list-style: none
+  background-clip: padding-box
+  background: $white
+  margin-top: 0.3rem
+  li
+    padding: 0.2rem 0.2rem 0.2rem 0rem
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem
+    overflow: auto
+    color: black
+    &.divider
+      height: 1px
+      background-color: $dark-grey
+      padding: 0
+      margin: 0.5rem 0
+
+.spinner-holder
+  position: fixed
+  width: 100%
+  height: 100%
+  z-index: 99
+  margin-top: -3.5rem
+  text-align: center
+  background: $primary
+  bottom: 0
+  display: flex
+  flex-direction: column
+  justify-content: center
+
+  .sk-double-bounce
+    z-index: 100
+    height: 60px !important
+    width: 60px !important
+    .sk-child
+      background-color: $white !important
+
+  p
+    font-size: 1.25rem
+    color: $white

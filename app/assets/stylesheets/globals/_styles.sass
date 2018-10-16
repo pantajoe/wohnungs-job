@@ -1,0 +1,15 @@
+.title
+  font-size: 1.9rem !important
+
+// Media Queries
++respond-to(tablet, desktop, widescreen, fullhd)
+  .only-mobile
+    display: none !important
+
++respond-to(medium, large, small)
+  .only-small
+    display: none !important
+
++respond-to(x-small)
+  .is-hidden-small
+    display: none !important

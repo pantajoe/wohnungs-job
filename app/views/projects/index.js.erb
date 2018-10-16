@@ -1,0 +1,14 @@
+<%- if params[:show_archive] %>
+$('.toggle-archived').addClass('is-primary');
+<%- else %>
+$('.toggle-archived').removeClass('is-primary');
+<%- end %>
+
+$('.archive-button-holder').html("<%=j render(partial: 'projects/archive_button')%>");
+$('.projects').html("<%=j render(partial: 'projects/projects')%>");
+
+initializeModals();
+
+$.each($('.edit-project-form'), function(i, $el) {
+  initializeForm($el);
+});

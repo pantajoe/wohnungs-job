@@ -1,0 +1,79 @@
+// Half of the line-height
+// ! Without a unit
+$typography--rootsizes: ( xsmall: 10, medium: 13 ) !default
+$typography--scale: ( big: 80, medium: 40, default: 20 ) !default
+$typography--defaulttype: ( font-family: '"webfont", sans-serif', regular: 400, bold: 700, italic: italic, cap-height: 1) !default
+
+// Map some variables internally
+$rootsizes: map-values($typography--rootsizes)
+$breakpoints: map-keys($layout--breakpoints)
+
+// Check if a key is in our scale
+@function in-scale($key)
+  $scales: map-keys($typography--scale)
+  $scale: map-get($typography--scale, nth($scales, 1))
+  @return map-has-key($scale, $key)
+
+// sass-lint:disable indentation
+=rootsize
+  // Get the smallest rootsize
+  font-size: nth($rootsizes, 1) / 16 * 100%
+
+  // Loop through the breakpoints
+  @each $breakpoint in $breakpoints
+    @if map-has-key($typography--rootsizes, $breakpoint)
+      font-size: map-get($typography--rootsizes, $breakpoint) / 16 * 100%
+
+=font-size($fontsize, $breakpoint: all)
+  $font-value: type-of($fontsize)
+  $in-scale: in-scale($fontsize)
+  $bp: $breakpoint
+
+  // If a number is supplied, just use the number
+  @if $font-value == number
+    $rootsize: nth($rootsizes, 1)
+
+    @if $bp == all
+      font-size: #{$fontsize / $rootsize}rem
+    @else
+      font-size: #{$fontsize / $rootsize}rem
+
+  // If a scale value is provided, use that
+  @else if $in-scale == true
+    // First, get the smallest instance
+    $scales: map-keys($typography--scale)
+    $scale: map-get($typography--scale, nth($scales, 1))
+
+    @if $bp == all
+      $rootsize: nth($rootsizes, 1)
+      $item: map-get($scale, $fontsize)
+
+      $size: map-get($item, 'font-size')
+      font-size: #{$size / $rootsize}rem
+
+      @if map-has-key($item, 'line-height')
+        line-height: map-get($item, 'line-height')
+
+      @if map-has-key($item, 'letter-spacing')
+        letter-spacing: map-get($item, 'letter-spacing') / $size * 1em
+
+      @each $breakpoint in $breakpoints
+        @if map-has-key($typography--scale, $breakpoint)
+          $rootsize: map-get($typography--rootsizes, $breakpoint)
+          $scale: map-get($typography--scale, $breakpoint)
+          $item: map-get($scale, $fontsize)
+          $size: map-get($item, 'font-size')
+          font-size: #{$size / $rootsize}rem
+
+            @if map-has-key($item, 'line-height')
+              line-height: map-get($item, 'line-height')
+
+            @if map-has-key($item, 'letter-spacing')
+              letter-spacing: map-get($item, 'letter-spacing') / $size * 1em
+
+    @else
+      @if map-has-key($typography--scale, $bp)
+        $rootsize: map-get($typography--rootsizes, $bp)
+        $scale: map-get($typography--scale, $bp)
+        $size: map-get($scale, $fontsize)
+        font-size: #{$size / $rootsize}rem

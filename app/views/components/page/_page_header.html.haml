@@ -1,0 +1,15 @@
+%nav.navbar.is-fixed-top.page-header.is-primary
+  .navbar-brand
+    .navbar-item
+      %a.logo-link{href: root_path}
+        %img.logo{alt: "Logo", src: image_path("logos/Screen/PNGs/screen--bild-wortmarke--white@2x.png")}/
+    .navbar-burger
+      %span
+      %span
+      %span
+  #navMenu.navbar-menu
+    .navbar-end
+      .navbar-item.is-hidden-touch
+        = render partial: 'components/page/nav_dropdown'
+      .navbar-item.is-hidden-desktop
+        = render partial: 'components/page/nav_dropdown_mobile'

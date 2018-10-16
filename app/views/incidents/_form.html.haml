@@ -1,0 +1,35 @@
+.field
+  .label= f.label :what_happened, class: 'label'
+  .control.has-icons-right
+    = f.text_area :what_happened, class: 'textarea input', rows: '2', required: true, maxlength: 300, 'data-parsley-trigger' => 'focusout'
+    .errors
+
+.field
+  .label= f.label :which_server, class: 'label'
+  .control.has-icons-right
+    = f.text_field :which_server, class: 'input', required: true, maxlength: 140, 'data-parsley-trigger' => 'focusout'
+    .errors
+
+.field
+  .label= f.label :realized_error, class: 'label'
+  .control.has-icons-right
+    = f.text_area :realized_error, class: 'textarea input', rows: '2', maxlength: 300, 'data-parsley-trigger' => 'focusout'
+    .errors
+
+.field
+  .label= f.label :solution, class: 'label'
+  .control.has-icons-right
+    = f.text_area :solution, class: 'textarea input', rows: '3', maxlength: 300, 'data-parsley-trigger' => 'focusout'
+    .errors
+
+.field
+  .label= f.label :impacts, class: 'label'
+  .control.has-icons-right
+    = f.text_area :impacts, class: 'textarea input', rows: '3', maxlength: 300, 'data-parsley-trigger' => 'focusout'
+    .errors
+
+.field
+  .label= f.label :future_approach, class: 'label'
+  .control.has-icons-right
+    = f.text_area :future_approach, class: 'textarea input', rows: '3', maxlength: 300, 'data-parsley-trigger' => 'focusout'
+    .errors

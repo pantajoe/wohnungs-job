@@ -1,0 +1,16 @@
+<%- if flash[:success].present?%>
+
+  closeModals();
+  if ($("#edit-incident-modal form").length > 0) resetForm($("#edit-incident-modal form"));
+  if ($("#new-incident-modal form").length > 0)  resetForm($("#new-incident-modal form"));
+
+  $('.incident-tool-buttons').html("<%=j render(partial: 'incidents/incident_tool_buttons')%>")
+  $('.incident-modal').html("<%=j render(partial: 'incident_modal', locals: { action: 'edit' })%>")
+  initializeModals();
+
+  $('.attributes').html("<%=j render(partial: 'incidents/attribute_groups')%>")
+<%- end%>
+
+$('body').append("<%=j render(partial: 'layouts/flash_message')%>");
+initializeFlashMessage();
+<%- flash.clear%>

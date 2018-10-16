@@ -1,0 +1,8 @@
+= link_to project_incidents_path(@project), class: 'column is-3', data: { turbolinks: false } do
+  = render partial: 'dashboard_dash_card', locals: { icon_class: 'exclamation-triangle 2x', value: @project.incidents.opened.count, title: 'Offene Incidents' }
+= link_to project_incidents_path(@project), class: 'column is-3', data: { turbolinks: false } do
+  = render partial: 'dashboard_dash_card', locals: { icon_class: 'exclamation-triangle 2x', value: @project.incidents.closed.count, title: 'Geschlossene Incidents' }
+= link_to project_securities_path(@project), class: 'column is-3' do
+  = render partial: 'dashboard_dash_card', locals: { icon_class: 'lock 2x', value: @project.code_cares.count, title: 'Sicherheit' }
+= link_to project_performances_path(@project), class: 'column is-3' do
+  = render partial: 'dashboard_dash_card', locals: { icon_class: 'server 2x', value: "99.98 %", title: 'SLA Level' }

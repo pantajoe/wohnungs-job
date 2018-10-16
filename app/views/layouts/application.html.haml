@@ -1,0 +1,18 @@
+!!!
+%html{lang: 'de', class: 'no-js no-touch has-navbar-fixed-top'}
+  %head
+    = render partial: 'layouts/head'
+
+  %body
+    = render partial: 'components/skip_links'
+
+    = render partial: 'components/page/page_header'
+    = render partial: 'layouts/flash_message'
+
+    #main.columns
+      .column.sidebar-menu.is-one-fifth.is-hidden-touch
+        = render partial: 'components/page/page_menu'
+      .column.main-content
+        = yield
+
+    = render partial: 'components/page/page_footer'

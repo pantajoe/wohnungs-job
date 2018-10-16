@@ -1,0 +1,4 @@
+- if report.is_sent.present?
+  %p.has-text-success="Versendet am #{I18n.localize(report.is_sent, format: :datetimeshortum)}"
+- else
+  %p Nicht versendet

@@ -1,0 +1,7 @@
+$('input#report-month').val("<%= I18n.l @month, format: :monthyear %>");
+$('.months-list').html("<%= j render(partial: 'month', collection: @months) %>")
+$('.reports-list').html("<%=j render(partial: 'report', collection: @reports.where(month: @month)) %>");
+$('.further-report-options').html("<%= j render(partial: 'further_options') %>");
+
+// Initialize Event Listeners
+initializeReports();

@@ -1,0 +1,6 @@
+require_relative "model/graph"
+require_relative "model/sample"
+require_relative "model/slow_sample"
+require_relative "model/error_sample"
+require_relative "model/event"
+require_relative "model/exception"

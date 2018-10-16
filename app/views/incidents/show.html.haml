@@ -1,0 +1,21 @@
+.section
+  .level
+    .level-left
+      .level-item
+        .title
+          Incident
+    .level-right
+      = render partial: 'incident_tool_buttons'
+
+  .subtitle
+    - if @incident.time_from.beginning_of_day == @incident.time_to.beginning_of_day
+      = "#{I18n.localize(@incident.time_from, format: :datetimeshort)} - #{I18n.localize(@incident.time_to, format: :short)}"
+    - else
+      = "#{I18n.localize(@incident.time_from, format: :datetimeshort)} bis #{I18n.localize(@incident.time_to, format: :datetimeshort)} Uhr"
+
+
+  .attributes
+    = render partial: 'attribute_groups'
+
+.incident-modal
+  = render partial: 'incident_modal', locals: { action: (@incident.with_post_mortem? ? 'edit' : 'new') }

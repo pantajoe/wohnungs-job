@@ -1,0 +1,16 @@
+.panel-block.report.is-hidden-mobile{ id: "report--#{report.id}", 'data-href' => project_report_path(@project, report) }
+  .level
+    .level-left
+      .level-item
+        %span.panel-icon
+          %i= fa_icon 'file-pdf'
+    .level-item= "Erstellt am: #{I18n.localize(report.created_on, format: :datetimeshortum)}"
+    .level-item{ id: "sent-hint--#{report.id}" }= render partial: 'is_sent_hint', locals: { report: report }
+    .level-right
+      .level-item{ id: "send-mail--#{report.id}", class: "send-mail--#{report.id}" }= render partial: 'controls', locals: { report: report }
+
+.panel-block.report.only-mobile{ id: "report--#{report.id}", 'data-href' => project_report_path(@project, report) }
+  %span.panel-icon
+    %i= fa_icon 'file-pdf'
+  %span.report-controls{ id: "send-mail--#{report.id}", class: "send-mail--#{report.id}" }= render partial: 'controls', locals: { report: report }
+  %span.created-on= l report.created_on.to_date, format: :short

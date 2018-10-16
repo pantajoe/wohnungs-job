@@ -1,0 +1,4 @@
+- disabled = report.is_sent.present? ? true : false
+
+%span.icon.send-mail{ 'data-href' => send_mail_project_report_path(@project, report), class: (disabled ? 'disabled' : '') }
+  %i= fa_icon (disabled ? 'envelope-open' : 'envelope')

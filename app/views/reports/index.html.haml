@@ -1,0 +1,26 @@
+.section
+  .level
+    .level-left
+      .level-item
+        .title Reporthistorie
+    .level-left
+      .level-item
+        = link_to preview_project_reports_path(@project, format: :pdf),
+            class: 'button is-primary', target: :_blank, method: :get do
+          %span.icon
+            %i= fa_icon 'eye'
+          %span Vorschau
+
+  %nav.panel.report-panel
+    .panel-block.header
+      %p.control.has-icons-left
+        %input#report-month.input.monthpicker{ type: 'text', readonly: true, value: l(@month, format: :monthyear) }
+        %span.icon.is-small.is-left
+          = fa_icon 'calendar'
+    %p.panel-tabs.months-list
+      = render partial: 'month', collection: @months
+    .reports-list
+      = render partial: 'report', collection: @reports.where(month: @month)
+
+.further-report-options
+  = render partial: 'further_options'

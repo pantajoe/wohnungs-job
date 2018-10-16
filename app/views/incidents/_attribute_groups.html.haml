@@ -1,0 +1,5 @@
+.card
+  .card-content
+    - Incident::EDITABLE_ATTRIBUTES.in_groups_of(3).each do |attribute_group|
+      .columns
+        = render partial: 'attribute', collection: attribute_group

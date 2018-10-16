@@ -1,0 +1,6 @@
+$("#sent-hint--#{@report.id}").html("#{j render(partial: 'is_sent_hint', locals: {report: @report})}")
+$(".send-mail--#{@report.id}").html("#{j render(partial: 'controls', locals: {report: @report})}")
+
+$('body').append("#{j render(partial: 'layouts/flash_message')}");
+initializeFlashMessage();
+- flash.clear

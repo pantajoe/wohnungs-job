@@ -1,0 +1,18 @@
+.section
+  .level
+    .level-left
+      .level-item
+        .title Incidents
+    .level-right
+      .level-item
+        .select
+          = select_tag(:filter, options_for_select({'Alle' => 'all', 'Ohne Post Mortem' => 'without_pm', 'Mit Post Mortem' => 'with'}, params[:filter] || 'all'), id: "filter-incidents-type", class: "filter")
+      .level-item
+        .select
+          .control.incident-daterange.has-icons-left
+            %input.input{readonly: true}
+              %span.icon.is-small.is-left
+                %i.fa.fa-calendar
+
+  .incidents
+    = render partial: 'incidents'

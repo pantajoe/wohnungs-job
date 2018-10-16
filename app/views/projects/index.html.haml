@@ -1,0 +1,19 @@
+.section
+  .level
+    .level-left
+      .level-item
+        .title Projektübersicht
+    .level-right
+      .level-item
+        .archive-button-holder
+          = render partial: 'archive_button'
+      .level-item
+        %a.button.is-primary.create-project.modal-button{'data-target' => '#new-project-modal'}
+          %span.icon
+            = fa_icon 'plus'
+          %span Projekt erstellen
+
+  .projects
+    = render partial: 'projects'
+
+= render partial: 'new_project_modal'

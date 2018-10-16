@@ -1,0 +1,106 @@
+%table.main-table
+  // Header
+  %tr
+    %td.header
+
+  // Hero
+  %tr
+    %td.section-padding
+      .logo
+        %a{href: "https://www.zweitag.de", target: "_blank"}
+          %img.img-max.zweitag-logo{alt: "Zweitag", src: attachments['zweitag.png'].url}/
+
+  // Title and subtitle
+  %tr
+    %td.section-padding
+      %table.responsive-table
+        %tr
+          %td.padding.title
+            Ihr Hosting-Report für #{I18n.localize(@report.month, format: :monthyear)}
+        %tr
+          %td.padding.subtitle
+            #{@project.title}
+
+  // Summary
+  %tr
+    %td.section-padding.summary
+      %table.responsive-table
+
+        %tr
+          %td.padding
+            .wrapper
+              %table
+                %tr
+                  %td
+                    %table.summary-content
+                      %tr
+                        %td
+                          %img.img-max.summary-icon{src: attachments['availability.png'].url}/
+                      %tr
+                        %td.summary-title
+                          Verfügbarkeit im Monatsmittel
+                      %tr
+                        %td.summary-subtitle
+                          #{@report.availability.round(2)}&#8239;%
+
+            .wrapper
+              %table
+                %tr
+                  %td
+                    %table.summary-content
+                      %tr
+                        %td
+                          %img.img-max.summary-icon{src: attachments['incident.png'].url}/
+                      %tr
+                        %td.summary-title
+                          Störungen
+                      %tr
+                        %td.summary-subtitle
+                          #{@report.incidents.count}
+
+        %tr
+          %td.padding
+            .wrapper
+              %table
+                %tr
+                  %td
+                    %table.summary-content
+                      %tr
+                        %td
+                          %img.img-max.summary-icon{src: attachments['code_care.png'].url}/
+                      %tr
+                        %td.summary-title
+                          Code Care Fixes
+                      %tr
+                        %td.summary-subtitle
+                          #{@report.monthly_code_cares.count}
+
+            .wrapper
+              %table
+                %tr
+                  %td
+                    %table.summary-content
+                      %tr
+                        %td
+                          %img.img-max.summary-icon{src: attachments['ops_care.png'].url}/
+                      %tr
+                        %td.summary-title
+                          Ops Care Fixes
+                      %tr
+                        %td.summary-subtitle
+                          Platzhalter
+  // Footer
+  %tr
+    %td.section-padding.footer
+      %table.responsive-table
+        %tr
+          %td
+            %a.link{href: "https://www.zweitag.de", target: "_blank"}
+              Zweitag GmbH
+            |
+            %a.link{href: "https://goo.gl/maps/3tQ9ekKw9bT2", target: "_blank"}
+              Alter Fischmarkt 12 | 48143 Münster
+            %br/
+            Amtsgericht Münster | HRB 11559
+            %br/
+            Geschäftsführer: Christian Peters, Julian Schneider

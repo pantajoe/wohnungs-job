@@ -1,0 +1,19 @@
+Ihr Hosting-Report für #{I18n.localize(@report.month, format: :monthyear)}
+
+#{@project.title}
+
+===============================================
+
+Verfügbarkeit im Monatsmittel: #{@report.availability.round(2)}%
+
+Störungen: #{@report.incidents.count}
+
+Code Care Fixes: #{@report.monthly_code_cares.count}
+
+Ops Care Fixes: Platzhalter
+
+===============================================
+
+Zweitag GmbH | Alter Fischmarkt 12 | 48143 Münster
+Amtsgericht Münster | HRB 11559
+Geschäftsführer: Christian Peters, Julian Schneider

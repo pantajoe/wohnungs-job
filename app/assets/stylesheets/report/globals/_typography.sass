@@ -1,0 +1,41 @@
+@font-face
+  font-family: 'SanukPro'
+  font-weight: 400
+  src: url('SanukPro.otf') format('opentype')
+
+@font-face
+  font-family: 'SanukPro'
+  font-weight: 600
+  src: url('SanukPro-Medium.otf') format('opentype')
+
+@font-face
+  font-family: 'SanukPro'
+  font-style: italic
+  font-weight: 600
+  src: url('SanukPro-MediumItalic.otf') format('opentype')
+
+@font-face
+  font-family: 'SanukPro'
+  font-weight: 800
+  src: url('SanukPro-Bold.otf') format('opentype')
+
+@font-face
+  font-family: 'SanukPro'
+  font-style: italic
+  font-weight: 800
+  src: url('SanukPro-BoldItalic.otf') format('opentype')
+
+@font-face
+  font-family: 'SanukPro'
+  font-style: italic
+  src: url('SanukPro-Italic.otf') format('opentype')
+
+html
+  +rootsize
+
+body
+  +font-size(default)
+  font-family: unquote(map-get($typography--defaulttype, font-family))
+  font-style: normal
+  font-weight: map-get($typography--defaulttype, 400)
+  line-height: 2rem

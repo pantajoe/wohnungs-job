@@ -1,0 +1,3 @@
+.further-options-box{ id: "further-options-box--#{@month.strftime('%Y-%m')}" }
+  %ul
+    %li= link_to 'Neuer Report', project_reports_path(@project, report: { month: @month }), class: 'new-report', method: :post, remote: true

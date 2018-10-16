@@ -1,0 +1,23 @@
+= form_for project, html: { id: "edit-project-form--#{project.id}", class: 'edit-project-form', 'data-parsley-validate' => true, novalidate: true }, remote: true do |f|
+  .modal{id: "edit-project-modal--#{project.id}"}
+    .modal-background
+    .modal-card
+      %header.modal-card-head
+        %p.modal-card-title Projekt bearbeiten
+        %a.delete{"aria-label" => "close"}
+      %section.modal-card-body
+        = render partial: 'form', locals: { f: f }
+      %footer.modal-card-foot
+        .buttons
+          = f.submit 'Speichern', class: 'button is-primary'
+          %button.button.cancel Abbrechen
+          - if project.archived?
+            = link_to archive_project_path(project), class: 'button is-primary', method: :patch, remote: true do
+              %span.icon
+                %i.fa.fa-eye
+              %span Projekt wiederherstellen
+          - else
+            = link_to archive_project_path(project), class: 'button is-danger', method: :patch, remote: true do
+              %span.icon
+                %i.fa.fa-archive
+              %span Projekt archivieren

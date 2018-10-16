@@ -1,0 +1,45 @@
+.c-data-list
+  &--big
+    .c-data-list__head
+      +font-size(medium)
+      font-weight: 400
+
+    .c-data-list__body
+      +default-spacing(padding-top)
+      +large-spacing(padding-bottom)
+      +font-size(bigger)
+
+  &__head
+    +font-size(12)
+    +half-spacing(padding-top)
+    border-top: thin solid $gray
+    font-weight: 400
+
+  &__body
+    +small-spacing(padding-top)
+    +half-spacing(padding-bottom)
+
+.d-data-list
+  &--big
+    .d-data-list__head
+      +font-size(medium)
+      font-weight: 400
+
+    .d-data-list__body
+      +default-spacing(padding-top)
+      +large-spacing(padding-bottom)
+      +font-size(30)
+      font-weight: 200
+
+  &__head
+    +font-size(14)
+    +half-spacing(padding-top)
+    border-top: thin solid $gray
+    font-weight: 400
+    line-height: 2
+
+  &__body
+    +small-spacing(padding-top)
+    +half-spacing(padding-bottom)
+    +font-size(12)
+    font-weight: 200

@@ -1,0 +1,6 @@
+require_relative "model/alert_condition"
+require_relative "model/index_set"
+require_relative "model/stream_rule"
+require_relative "model/stream"
+require_relative "model/slack_alarm_callback"
+require_relative "model/message"

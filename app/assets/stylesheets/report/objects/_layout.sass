@@ -1,0 +1,41 @@
+$layout--grid-gutter: 1.5rem !default
+
+=o-layout($has-spacing: true)
+  +flexbox
+  +flex-wrap(wrap)
+  +align-items(flex-start)
+  // page-break-inside: avoid
+  @if $has-spacing == true
+    margin: 0 ( $layout--grid-gutter * -0.5 )
+
+=o-layout-item($has-spacing: true)
+  @if $has-spacing == true
+    +large-spacing(margin-bottom)
+    padding: 0 ( $layout--grid-gutter / 2 )
+
+  display: block
+  box-sizing: border-box
+  width: 100%
+
+
+.o-layout
+  +o-layout
+
+  &__item
+    +o-layout-item
+
+    &--flush
+      margin-bottom: 0
+      padding: 0 ( $layout--grid-gutter / 10 )
+
+  &--flush
+    margin: 0 ( $layout--grid-gutter * -0.1 )
+
+  &--wide
+    +flex-wrap(nowrap)
+
+  &--middle
+    +align-items(center)
+
+  &--bottom
+    +align-items(flex-end)

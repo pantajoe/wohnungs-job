@@ -1,0 +1,12 @@
+= form_for Project.new, html: { id: 'new-project-form', 'data-parsley-validate' => true, novalidate: true }, remote: true do |f|
+  #new-project-modal.modal
+    .modal-background
+    .modal-card
+      %header.modal-card-head
+        %p.modal-card-title Projekt erstellen
+        %a.delete{"aria-label" => "close"}
+      %section.modal-card-body
+        = render partial: 'form', locals: { f: f }
+      %footer.modal-card-foot
+        = f.submit 'Speichern', class: 'button is-primary'
+        %button.button.cancel Abbrechen

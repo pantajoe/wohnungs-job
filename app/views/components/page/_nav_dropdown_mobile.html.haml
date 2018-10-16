@@ -1,0 +1,34 @@
+.navbar-burger-dropdown
+  - if @project.present? && @project.id.present?
+    .navbar-item= @project.title
+    = link_to project_path(@project), class: "navbar-item dashboard-tab #{'is-active' if params[:controller] == 'projects'}" do
+      %span.icon
+        %i= fa_icon 'desktop'
+      %span Dashboard
+    = link_to project_incidents_path(@project), class: "navbar-item incidents-tab #{'is-active' if params[:controller] == 'incidents'}", data: { turbolinks: false } do
+      %span.icon
+        %i= fa_icon 'exclamation-triangle'
+      %span Incidents
+    = link_to project_performances_path(@project), class: "navbar-item performances-tab #{'is-active' if params[:controller] == 'performances'}" do
+      %span.icon
+        %i= fa_icon 'chart-area'
+      %span Performance
+    = link_to project_securities_path(@project), class: "navbar-item securities-tab #{'is-active' if params[:controller] == 'securities'}" do
+      %span.icon
+        %i= fa_icon 'lock'
+      %span Sicherheit
+    = link_to project_reports_path(@project), class: "navbar-item reports-tab #{'is-active' if params[:controller] == 'reports'}", data: { turbolinks: false } do
+      %span.icon
+        %i= fa_icon 'list'
+      %span Reports
+    %hr
+  %a.navbar-item.help-button Hilfe
+  %hr
+  %a.navbar-item{ href: root_path}
+    %span.icon
+      %i= fa_icon 'image'
+    %span Benutzer
+  %a.navbar-item{ href: root_path}
+    %span.icon
+      %i= fa_icon 'sign-out-alt'
+    %span Ausloggen

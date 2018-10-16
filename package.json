@@ -1,0 +1,7 @@
+{
+  "name": "rails-project-template",
+  "private": true,
+  "dependencies": {
+    "flatpickr": "^4.0.1"
+  }
+}

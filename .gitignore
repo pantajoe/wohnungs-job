@@ -1,0 +1,49 @@
+*.rbc
+capybara-*.html
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/public/system
+/coverage/
+/spec/tmp
+/spec/examples.txt
+**.orig
+rerun.txt
+pickle-email-*.html
+**/.DS_Store
+
+## Environment normalisation:
+/.bundle
+/vendor/bundle
+/.env.development
+/.env.test
+
+# these should all be checked in to normalise the environment:
+# Gemfile.lock, .ruby-version, .ruby-gemset
+
+# unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
+.rvmrc
+
+# if using bower-rails ignore default bower_components path bower.json files
+/vendor/assets/bower_components
+*.bowerrc
+bower.json
+
+# Ignore pow environment settings
+.powenv
+
+# Ignore all logfiles and tempfiles.
+/log/*
+!/log/.keep
+/tmp
+!/tmp/.keep
+
+/node_modules
+/yarn-error.log
+
+.byebug_history
+
+# Ignore sass-cache
+/.sass-cache
+
+# Ignore precompiled assets
+public/assets/*
