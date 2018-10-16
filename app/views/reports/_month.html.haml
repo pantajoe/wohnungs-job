@@ -1,6 +1,0 @@
-- is_active = (month.month == @month.month && month.year == @month.year) ? 'is-active' : ''
-
-= link_to project_reports_path(@project, month: month.strftime('%Y-%m-%d')), class: "#{is_active} has-icons-right", data: { month: month.strftime('%Y-%m-%d') }, remote: true do
-  %span= l(month, format: :month_and_year_abbreviated)
-  - if month.month == @month.month && month.year == @month.year
-    %span.further-options{ data: { target: "#further-options-box--#{month.strftime('%Y-%m')}" } }= fa_icon 'ellipsis-v'

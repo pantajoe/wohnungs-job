@@ -1,7 +1,5 @@
 {
-  "name": "rails-project-template",
+  "name": "wohnungs-job",
   "private": true,
-  "dependencies": {
-    "flatpickr": "^4.0.1"
-  }
+  "dependencies": {}
 }
