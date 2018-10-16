@@ -58,7 +58,13 @@ class WohnungsJob
     SERVICE_VARIABLES.each do |var|
       puts '###################################################'
       cache_var = :"#{var}_cache"
-      response = HTTParty.get(INFO[var][:url])
+
+      begin
+        response = HTTParty.get(INFO[var][:url])
+      rescue Net::OpenTimeout
+        next
+      end
+
       instance_variable_set cache_var, Nokogiri::HTML(response)
 
       INFO[var][:container].each do |selector|
