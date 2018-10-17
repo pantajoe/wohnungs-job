@@ -62,7 +62,7 @@ class WohnungsJob
 
       begin
         response = HTTParty.get(INFO[var][:url])
-      rescue Net::OpenTimeout
+      rescue Net::OpenTimeout, Errno::ETIMEDOUT
         next
       end
 
