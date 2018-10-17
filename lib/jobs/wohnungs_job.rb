@@ -3,6 +3,7 @@ require_relative '../modules/os'
 if OS.mac?
   require 'terminal-notifier'
   require 'terminal-notifier-guard'
+  require_relative '../initializers/terminal_notifier_guard'
 else
   require 'libnotify'
 end
@@ -58,6 +59,8 @@ class WohnungsJob
   def self.perform_task
     SERVICE_VARIABLES.each do |var|
       puts '###################################################'
+      puts '###################################################'
+      puts '###################################################'
       cache_var = :"#{var}_cache"
 
       begin
@@ -79,11 +82,12 @@ class WohnungsJob
       instance_variable_set var, instance_variable_get(cache_var)
       instance_variable_set cache_var, nil
 
-      puts(INFO[var][:translation] + ": " + instance_variable_get(var).strip)
+      puts(INFO[var][:translation] + ": " + instance_variable_get(var).strip.gsub("\n", ''))
     end
     puts '###################################################'
     puts '###################################################'
     puts '###################################################'
+    puts "\n"
   end
 
   def self.notify(service)
