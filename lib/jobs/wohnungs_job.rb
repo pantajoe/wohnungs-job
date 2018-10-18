@@ -4,13 +4,18 @@ if OS.mac?
   require 'terminal-notifier'
   require 'terminal-notifier-guard'
   require_relative '../initializers/terminal_notifier_guard'
-else
+elsif OS.linux?
   require 'libnotify'
+elsif OS.windows?
+  require 'pycall/import'
 end
 require 'httparty'
 require 'nokogiri'
 
 class WohnungsJob
+  extend PyCall::Import
+  pyfrom :'win10toast', import: 'ToastNotifier'
+
   SERVICES = %i[wg_gesucht immoscout24 nadann immowelt wohnungen_ms studenten_wg]
   SERVICE_VARIABLES = %i[@wg_gesucht @immoscout24 @nadann @immowelt @wohnungen_ms @studenten_wg]
   INFO =
@@ -91,15 +96,22 @@ class WohnungsJob
   end
 
   def self.notify(service)
-    if defined?(TerminalNotifier)
+    if OS.mac?
       TerminalNotifier::Guard.success("Neue Wohnung auf #{INFO[service][:translation]}")
-    else
+    elsif OS.linux?
       Libnotify.show(
         body: "Neue Wohnung",
         summary: INFO[service][:translation],
         timeout: 3,
         urgency: :normal,
         append: true,
+      )
+    elsif OS.windows?
+      ToastNotifier.new.show_toast(
+        INFO[service][:translation],
+        "Neue Wohnung auf #{INFO[service][:translation]}!",
+        icon_path: nil,
+        duration: 3
       )
     end
   end

@@ -21,6 +21,10 @@ group :mac do
   gem 'terminal-notifier-guard'
 end
 
+group :windows do
+  gem 'pycall'
+end
+
 # Debugging
 group :development, :test do
   gem 'pry-byebug'
