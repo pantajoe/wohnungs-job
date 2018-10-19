@@ -14,8 +14,15 @@ require 'nokogiri'
 require 'colorize'
 
 class WohnungsJob
-  extend PyCall::Import
-  pyfrom :'win10toast', import: 'ToastNotifier'
+  if OS.windows?
+    begin
+      `python "%LocalAppData%\\Programs\\Python\\Python36-32\\Scripts\\pywin32_postinstall.py" -install`
+    rescue StandardError
+      puts 'No Worries'
+    end
+    extend PyCall::Import
+    pyfrom :'win10toast', import: 'ToastNotifier'
+  end
 
   SERVICES = %i[wg_gesucht immoscout24 nadann immowelt wohnungen_ms studenten_wg]
   SERVICE_VARIABLES = %i[@wg_gesucht @immoscout24 @nadann @immowelt @wohnungen_ms @studenten_wg]
