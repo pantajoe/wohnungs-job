@@ -62,33 +62,38 @@ class WohnungsJob
   end
 
   def self.perform_task
-    SERVICE_VARIABLES.each do |var|
+    puts '###################################################'
+    puts '###################################################'
+    puts '###################################################'
+
+    SERVICE_VARIABLES.each do |service|
       puts '###################################################'
-      puts '###################################################'
-      puts '###################################################'
-      cache_var = :"#{var}_cache"
+      cache_service = :"#{service}_cache"
 
       begin
-        response = HTTParty.get(INFO[var][:url])
+        response = HTTParty.get(INFO[service][:url])
       rescue Net::OpenTimeout, Errno::ETIMEDOUT, SocketError
         next
       end
 
-      instance_variable_set cache_var, Nokogiri::HTML(response)
+      instance_variable_set cache_service, Nokogiri::HTML(response)
 
-      INFO[var][:container].each do |selector|
-        instance_variable_set cache_var, instance_variable_get(cache_var).css(selector)
+      INFO[service][:container].each do |selector|
+        instance_variable_set cache_service, instance_variable_get(cache_service).css(selector)
       end
 
-      instance_variable_set cache_var, instance_variable_get(cache_var).first.text.gsub(/\Aneu/i, '')
+      instance_variable_set cache_service, instance_variable_get(cache_service).first&.text&.gsub(/\Aneu/i, '')
 
-      notify(var) if instance_variable_get(cache_var) != instance_variable_get(var)
+      next unless instance_variable_get(cache_service)
 
-      instance_variable_set var, instance_variable_get(cache_var)
-      instance_variable_set cache_var, nil
+      notify(service) if instance_variable_get(cache_service) != instance_variable_get(service)
 
-      puts(INFO[var][:translation] + ": " + instance_variable_get(var).strip.gsub("\n", ''))
+      instance_variable_set service, instance_variable_get(cache_service)
+      instance_variable_set cache_service, nil
+
+      puts(INFO[service][:translation].bold.public_send(INFO[service][:color]) + ": " + instance_variable_get(service).strip.gsub("\n", ''))
     end
+
     puts '###################################################'
     puts '###################################################'
     puts '###################################################'
