@@ -16,7 +16,7 @@ require 'colorize'
 class WohnungsJob
   if OS.windows?
     begin
-      `python "%LocalAppData%\\Programs\\Python\\Python36-32\\Scripts\\pywin32_postinstall.py" -install`
+      system 'python "%LocalAppData%\\Programs\\Python\\Python36-32\\Scripts\\pywin32_postinstall.py" -install'
     rescue StandardError
       puts 'No Worries'
     end
