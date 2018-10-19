@@ -23,6 +23,14 @@ User `bundle install --without linux, windows`
   * Afterwards, add Make to your PATH: `"C:\Program Files (x86)\GnuWin32\bin"`
   * Then install bundler with `gem install bundler`
   * Finally, execute `bundle install --without mac, linux`
+  * The last step is to create a file in your user-directory (C:\Users\<your-user-name>) named `WohnungsSuche.bat` with this content:
+  ```SHELL
+  python C:\Users\<your-user-name>\AppData\Local\Programs\Python\Python36\Scripts\pywin32_postinstall.py -install
+  cd wohnungs-job
+  set RUBY_DLL_PATH=%PATH%
+  rake wg:job
+  ```
+  You can then press Windows-Key + R and type in the following command `cmd /k WohnungsSuche.bat` and press Enter. Done!
 
 ## Execution
   * Execute using `bundle exec rake wg:job`
