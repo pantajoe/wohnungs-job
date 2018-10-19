@@ -11,6 +11,7 @@ end
 gem 'httparty'
 gem 'nokogiri'
 gem 'rake'
+gem 'colorize'
 
 group :linux do
   gem 'libnotify'
