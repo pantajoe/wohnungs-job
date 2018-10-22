@@ -110,10 +110,13 @@ class WohnungsJob
 
   def self.notify(service)
     if OS.mac?
-      TerminalNotifier::Guard.success("Neue Wohnung auf #{INFO[service][:translation]}")
+      TerminalNotifier::Guard.success(
+        "Neue Wohnung auf #{INFO[service][:translation]}!",
+        title: INFO[service][:translation],
+      )
     elsif OS.linux?
       Libnotify.show(
-        body: "Neue Wohnung",
+        body: "Neue Wohnung auf #{INFO[service][:translation]}!",
         summary: INFO[service][:translation],
         timeout: 3,
         urgency: :normal,
