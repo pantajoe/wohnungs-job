@@ -6,19 +6,13 @@ if OS.mac?
   require_relative '../initializers/terminal_notifier_guard'
 elsif OS.linux?
   require 'libnotify'
-elsif OS.windows?
-  require 'pycall/import'
 end
 require 'httparty'
 require 'nokogiri'
 require 'colorize'
+require 'base64'
 
 class WohnungsJob
-  if OS.windows?
-    extend PyCall::Import
-    pyfrom :'win10toast', import: 'ToastNotifier'
-  end
-
   SERVICES = %i[wg_gesucht immoscout24 nadann immowelt wohnungen_ms studenten_wg]
   SERVICE_VARIABLES = %i[@wg_gesucht @immoscout24 @nadann @immowelt @wohnungen_ms @studenten_wg]
   INFO =
@@ -111,6 +105,8 @@ class WohnungsJob
     puts "\n"
   end
 
+  private
+
   def self.notify(service)
     if OS.mac?
       TerminalNotifier::Guard.success(
@@ -126,12 +122,9 @@ class WohnungsJob
         append: true,
       )
     elsif OS.windows?
-      ToastNotifier.new.show_toast(
-        INFO[service][:translation],
-        "Neue Wohnung auf #{INFO[service][:translation]}!",
-        icon_path: nil,
-        duration: 3
-      )
+      command = %{Import-Module BurntToast; New-BurntToastNotification -Text "#{INFO[service][:translation]}", "Neue Wohnung auf #{INFO[service][:translation]}!"}
+      command = Base64.strict_encode64(command.encode('utf-16le'))
+      system "PowerShell -EncodedCommand #{command}"
     end
   end
 
@@ -150,12 +143,9 @@ class WohnungsJob
         append: true,
       )
     elsif OS.windows?
-      ToastNotifier.new.show_toast(
-        "SystemExit",
-        "The script crashed! Restart it!",
-        icon_path: nil,
-        duration: 3
-      )
+      command = %{Import-Module BurntToast; New-BurntToastNotification -Text "SystemExit",  "The script crashed! Restart it!"}
+      command = Base64.strict_encode64(command.encode('utf-16le'))
+      system "PowerShell -EncodedCommand #{command}"
     end
   end
 end
