@@ -82,6 +82,9 @@ class WohnungsJob
         response = HTTParty.get(INFO[service][:url])
       rescue Net::OpenTimeout, Errno::ETIMEDOUT, SocketError, Net::ReadTimeout, OpenSSL::SSL::SSLError, Errno::ECONNRESET, Errno::ECONNREFUSED
         next
+      rescue StandardError => e
+        notify_exit!
+        raise SystemExit, "The script crashed with an error: #{e}"
       end
 
       instance_variable_set cache_service, Nokogiri::HTML(response)
@@ -126,6 +129,30 @@ class WohnungsJob
       ToastNotifier.new.show_toast(
         INFO[service][:translation],
         "Neue Wohnung auf #{INFO[service][:translation]}!",
+        icon_path: nil,
+        duration: 3
+      )
+    end
+  end
+
+  def self.notify_exit!
+    if OS.mac?
+      TerminalNotifier::Guard.failed(
+        "The script crashed! Restart it!",
+        title: "SystemExit"
+      )
+    elsif OS.linux?
+      Libnotify.show(
+        body: "SystemExit",
+        summary: "The script crashed! Restart it!",
+        timeout: 3,
+        urgency: :critical,
+        append: true,
+      )
+    elsif OS.windows?
+      ToastNotifier.new.show_toast(
+        "SystemExit",
+        "The script crashed! Restart it!",
         icon_path: nil,
         duration: 3
       )
