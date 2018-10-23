@@ -22,36 +22,42 @@ class WohnungsJob
         container: %w[#main_content.row #main_column .panel.panel-default:not(.panel-hidden) .panel-body .row .col-sm-8 .list-details-panel-inner .detailansicht],
         translation: 'WG Gesucht',
         color: :blue,
+        icon: 'wg_gesucht',
       },
       :@immoscout24 => {
         url: 'https://www.immobilienscout24.de/Suche/S-2/Wohnung-Miete/Umkreissuche/M_fcnster/-/-160749/2448287/-/1276010036/3/2,00-/40,00-/EURO--820,00',
         container: %w[#resultListItems .result-list__listing .result-list-entry__brand-title-container h5],
         translation: 'ImmoScout24',
         color: :magenta,
+        icon: 'immoscout24',
       },
       :@nadann => {
         url: 'https://www.nadann.de/rubriken/kleinanzeigen/biete-wohnen/',
         container: %w[#c10 section .row .col-xs-12 .card-columns .card .card-block .card-text span],
         translation: 'NaDann',
         color: :green,
+        icon: 'nadann',
       },
       :@immowelt => {
         url: 'https://www.immowelt.de/liste/muenster/wohnungen/mieten?lat=51.95256&lon=7.63143&sr=3&roomi=2&rooma=3&prima=900&wflmi=40&sort=createdate%2Bdesc',
         container: %w[.immoliste .content_wrapper .iw_content .list_background_wrapper.padding_top_none_s .iw_list_content .js-object.listitem_wrap .listitem.clear .listcontent.clear h2.ellipsis],
         translation: 'Immowelt',
         color: :yellow,
+        icon: 'immowelt',
       },
       :@wohnungen_ms => {
         url: 'https://wohnungen.ms/provisionsfreie-immobilien-muenster/wohnungen-angebote/',
         container: %w[#content article.post header h3],
         translation: 'Wohnungen MS',
         color: :red,
+        icon: 'wohnungen_ms',
       },
       :@studenten_wg => {
         url: 'https://www.studenten-wg.de/angebote_lesen.html?detailsuche=aus&preismode=&newsort=&stadt=M%FCnster&fuer=Wohnungen&mietart=1&mbsuche=Frauen+oder+M%E4nner&zimin=2&zimax=3',
         container: %w[.property-container .property-text h3],
         translation: 'Studenten WG',
         color: :cyan,
+        icon: 'studenten_wg',
       },
     }
 
