@@ -1,5 +1,5 @@
-require 'pry-byebug'
 require_relative '../modules/os'
+require_relative '../modules/icon_helper'
 if OS.mac?
   require 'terminal-notifier'
   require 'terminal-notifier-guard'
@@ -7,12 +7,16 @@ if OS.mac?
 elsif OS.linux?
   require 'libnotify'
 end
+require 'pry-byebug'
 require 'httparty'
 require 'nokogiri'
 require 'colorize'
 require 'base64'
 
+
 class WohnungsJob
+  extend IconHelper
+
   SERVICES = %i[wg_gesucht immoscout24 nadann immowelt wohnungen_ms studenten_wg]
   SERVICE_VARIABLES = %i[@wg_gesucht @immoscout24 @nadann @immowelt @wohnungen_ms @studenten_wg]
   INFO =
@@ -22,42 +26,42 @@ class WohnungsJob
         container: %w[#main_content.row #main_column .panel.panel-default:not(.panel-hidden) .panel-body .row .col-sm-8 .list-details-panel-inner .detailansicht],
         translation: 'WG Gesucht',
         color: :blue,
-        icon: 'wg_gesucht',
+        icon: icon_path('wg_gesucht'),
       },
       :@immoscout24 => {
         url: 'https://www.immobilienscout24.de/Suche/S-2/Wohnung-Miete/Umkreissuche/M_fcnster/-/-160749/2448287/-/1276010036/3/2,00-/40,00-/EURO--820,00',
         container: %w[#resultListItems .result-list__listing .result-list-entry__brand-title-container h5],
         translation: 'ImmoScout24',
         color: :magenta,
-        icon: 'immoscout24',
+        icon: icon_path('immoscout24'),
       },
       :@nadann => {
         url: 'https://www.nadann.de/rubriken/kleinanzeigen/biete-wohnen/',
         container: %w[#c10 section .row .col-xs-12 .card-columns .card .card-block .card-text span],
         translation: 'NaDann',
         color: :green,
-        icon: 'nadann',
+        icon: icon_path('nadann'),
       },
       :@immowelt => {
         url: 'https://www.immowelt.de/liste/muenster/wohnungen/mieten?lat=51.95256&lon=7.63143&sr=3&roomi=2&rooma=3&prima=900&wflmi=40&sort=createdate%2Bdesc',
         container: %w[.immoliste .content_wrapper .iw_content .list_background_wrapper.padding_top_none_s .iw_list_content .js-object.listitem_wrap .listitem.clear .listcontent.clear h2.ellipsis],
         translation: 'Immowelt',
         color: :yellow,
-        icon: 'immowelt',
+        icon: icon_path('immowelt'),
       },
       :@wohnungen_ms => {
         url: 'https://wohnungen.ms/provisionsfreie-immobilien-muenster/wohnungen-angebote/',
         container: %w[#content article.post header h3],
         translation: 'Wohnungen MS',
         color: :red,
-        icon: 'wohnungen_ms',
+        icon: icon_path('wohnungen_ms'),
       },
       :@studenten_wg => {
         url: 'https://www.studenten-wg.de/angebote_lesen.html?detailsuche=aus&preismode=&newsort=&stadt=M%FCnster&fuer=Wohnungen&mietart=1&mbsuche=Frauen+oder+M%E4nner&zimin=2&zimax=3',
         container: %w[.property-container .property-text h3],
         translation: 'Studenten WG',
         color: :cyan,
-        icon: 'studenten_wg',
+        icon: icon_path('studenten_wg'),
       },
     }
 
@@ -126,6 +130,7 @@ class WohnungsJob
         timeout: 3,
         urgency: :normal,
         append: true,
+        icon_path: INFO[service][:icon],
       )
     elsif OS.windows?
       # TODO: images and emails!!!
@@ -133,7 +138,7 @@ class WohnungsJob
         Import-Module BurntToast;
         $Text1 = New-BTText -Content '#{INFO[service][:translation]}';
         $Text2 = New-BTText -Content 'Neue Wohnung auf #{INFO[service][:translation]}!';
-        $Image1 = New-BTImage -Source $env:USERPROFILE\\wohnungs-job\\lib\\icons\\#{INFO[service][:icon]}.ico -AppLogoOverride;
+        $Image1 = New-BTImage -Source #{INFO[service][:icon]} -AppLogoOverride;
         $Binding1 = New-BTBinding -Children $Text1, $Text2 -AppLogoOverride $Image1;
         $Visual1 = New-BTVisual -BindingGeneric $Binding1;
         $Content1 = New-BTContent -Visual $Visual1 -Launch '#{INFO[service][:url]}' -ActivationType Protocol;
@@ -152,14 +157,15 @@ class WohnungsJob
       )
     elsif OS.linux?
       Libnotify.show(
-        body: "SystemExit",
-        summary: "The script crashed! Restart it!",
+        body: "The script crashed! Restart it!",
+        summary: "SystemExit",
         timeout: 3,
         urgency: :critical,
         append: true,
+        icon_path: icon_path('failure'),
       )
     elsif OS.windows?
-      command = %{Import-Module BurntToast; New-BurntToastNotification -AppLogo $env:USERPROFILE\\wohnungs-job\\lib\\icons\\failure.ico -Text "SystemExit",  "The script crashed! Restart it!"}
+      command = %{Import-Module BurntToast; New-BurntToastNotification -AppLogo #{icon_path 'failure'} -Text "SystemExit",  "The script crashed! Restart it!"}
       command = Base64.strict_encode64(command.encode('utf-16le'))
       system "PowerShell -EncodedCommand #{command}"
     end
