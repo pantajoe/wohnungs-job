@@ -159,7 +159,7 @@ class WohnungsJob
         append: true,
       )
     elsif OS.windows?
-      command = %{Import-Module BurntToast; New-BurntToastNotification -Text "SystemExit",  "The script crashed! Restart it!"}
+      command = %{Import-Module BurntToast; New-BurntToastNotification -AppLogo $env:USERPROFILE\\wohnungs-job\\lib\\icons\\failure.ico -Text "SystemExit",  "The script crashed! Restart it!"}
       command = Base64.strict_encode64(command.encode('utf-16le'))
       system "PowerShell -EncodedCommand #{command}"
     end
