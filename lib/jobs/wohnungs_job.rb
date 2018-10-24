@@ -128,7 +128,17 @@ class WohnungsJob
         append: true,
       )
     elsif OS.windows?
-      command = %{Import-Module BurntToast; New-BurntToastNotification -Text "#{INFO[service][:translation]}", "Neue Wohnung auf #{INFO[service][:translation]}!"}
+      # TODO: images and emails!!!
+      command = %{
+        Import-Module BurntToast;
+        $Text1 = New-BTText -Content '#{INFO[service][:translation]}';
+        $Text2 = New-BTText -Content 'Neue Wohnung auf #{INFO[service][:translation]}!';
+        $Image1 = New-BTImage -Source $env:USERPROFILE\\wohnungs-job\\lib\\icons\\#{INFO[service][:icon]}.ico -AppLogoOverride;
+        $Binding1 = New-BTBinding -Children $Text1, $Text2 -AppLogoOverride $Image1;
+        $Visual1 = New-BTVisual -BindingGeneric $Binding1;
+        $Content1 = New-BTContent -Visual $Visual1 -Launch '#{INFO[service][:url]}' -ActivationType Protocol;
+        Submit-BTNotification -Content $Content1;
+      }
       command = Base64.strict_encode64(command.encode('utf-16le'))
       system "PowerShell -EncodedCommand #{command}"
     end
