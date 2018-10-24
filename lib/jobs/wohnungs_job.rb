@@ -17,6 +17,7 @@ require 'base64'
 class WohnungsJob
   extend IconHelper
 
+  ERROR_ICON = icon_path('failure')
   SERVICES = %i[wg_gesucht immoscout24 nadann immowelt wohnungen_ms studenten_wg]
   SERVICE_VARIABLES = %i[@wg_gesucht @immoscout24 @nadann @immowelt @wohnungen_ms @studenten_wg]
   INFO =
@@ -122,6 +123,8 @@ class WohnungsJob
       TerminalNotifier::Guard.success(
         "Neue Wohnung auf #{INFO[service][:translation]}!",
         title: INFO[service][:translation],
+        icon_path: INFO[service][:icon],
+        open: INFO[service][:url],
       )
     elsif OS.linux?
       Libnotify.show(
@@ -153,7 +156,8 @@ class WohnungsJob
     if OS.mac?
       TerminalNotifier::Guard.failed(
         "The script crashed! Restart it!",
-        title: "SystemExit"
+        title: "SystemExit",
+        icon_path: ERROR_ICON,
       )
     elsif OS.linux?
       Libnotify.show(
@@ -162,10 +166,10 @@ class WohnungsJob
         timeout: 3,
         urgency: :critical,
         append: true,
-        icon_path: icon_path('failure'),
+        icon_path: ERROR_ICON,
       )
     elsif OS.windows?
-      command = %{Import-Module BurntToast; New-BurntToastNotification -AppLogo #{icon_path 'failure'} -Text "SystemExit",  "The script crashed! Restart it!"}
+      command = %{Import-Module BurntToast; New-BurntToastNotification -AppLogo #{ERROR_ICON} -Text "SystemExit",  "The script crashed! Restart it!"}
       command = Base64.strict_encode64(command.encode('utf-16le'))
       system "PowerShell -EncodedCommand #{command}"
     end
