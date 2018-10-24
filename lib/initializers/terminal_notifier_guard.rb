@@ -3,13 +3,13 @@ require_relative '../modules/os'
 if OS.mac?
   module TerminalNotifier
     module Guard
-      OSX_BUILT_IN_SOUNDS = { :notify => 'Blow', :failed => 'Sosumi', :pending => 'Morse', :success => 'Hero' }.freeze
+      OSX_BUILT_IN_SOUNDS = { notify: 'Blow', failed: 'Sosumi', pending: 'Morse', success: 'Hero' }.freeze
 
       def self.execute(verbose, options)
         if available? && installed?
-          options.merge!({ :contentImage=> GUARD_ICON, :appIcon => icon(options.delete(:type)) })
           type = options.delete(:type)
-          options.merge!({ :contentImage=> GUARD_ICON, :appIcon => icon(type), :sound => sound(type) })
+          # appIcon (left image); GUARD_ICON (guard icon_path)
+          options.merge!({ contentImage: (options[:icon_path] || icon(type)), sound: sound(type) })
           command = [bin_path, *options.map { |k,v| ["-#{k}", v.to_s] }.flatten]
           if RUBY_VERSION < '1.9'
             require 'shellwords'
