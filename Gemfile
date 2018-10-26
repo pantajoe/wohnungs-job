@@ -12,6 +12,7 @@ gem 'httparty'
 gem 'nokogiri'
 gem 'rake'
 gem 'colorize'
+gem 'dotenv', github: 'bkeepers/dotenv'
 
 group :linux do
   gem 'libnotify'

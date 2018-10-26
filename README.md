@@ -2,6 +2,7 @@
 
 ## Installation
   * Use Ruby 2.4.1
+  * To send emails with this job, you must set all the variables in the `.env.sample` in your `.env`
 
 ### On Linux
 

@@ -16,6 +16,7 @@ pickle-email-*.html
 /vendor/bundle
 /.env.development
 /.env.test
+/.env
 
 # these should all be checked in to normalise the environment:
 /Gemfile.lock
