@@ -35,8 +35,8 @@ class BurntToastNotification
 
   def build_powershell_command
     command  = "Import-Module BurntToast;\n"
-    command += "$Text1 = New-BTText -Content #{@title};\n"
-    command += "$Text2 = New-BTText -Content #{@body};\n" if @body.present?
+    command += "$Text1 = New-BTText -Content '#{@title}';\n"
+    command += "$Text2 = New-BTText -Content '#{@body}';\n" if @body.present?
     command += "$Image1 = New-BTImage -Source #{@icon_path} -AppLogoOverride;\n" if @icon_path.present?
 
     if @body.present?
@@ -55,7 +55,7 @@ class BurntToastNotification
     command += "$Content1 = New-BTContent -Visual $Visual1"
 
     if @onclick_url.present?
-      command += " -Launch '#{INFO[service][:url]}' -ActivationType Protocol;\n"
+      command += " -Launch '#{@onclick_url}' -ActivationType Protocol;\n"
     else
       command += ";\n"
     end
