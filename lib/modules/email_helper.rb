@@ -188,7 +188,13 @@ module EmailHelper
             .btn-primary a {
               background-color: #{options[:button_color]} !important;
               border-color: #{options[:button_color]} !important;
-              color: #ffffff; }
+              color: rgb(255, 255, 255) !important;
+              text-decoration: none !important;
+              padding: 10px 12px;
+              line-height: 1.5;
+              border-style: solid;
+              border-color: #{options[:button_color]};
+              border-width: 1px; }
             /* -------------------------------------
                 OTHER STYLES THAT MIGHT BE USEFUL
             ------------------------------------- */
@@ -513,7 +519,13 @@ module EmailHelper
             .btn-primary a {
               background-color: #DC143C !important;
               border-color: #DC143C !important;
-              color: #ffffff; }
+              color: rgb(255, 255, 255) !important;
+              text-decoration: none !important;
+              padding: 10px 12px;
+              line-height: 1.5;
+              border-style: solid;
+              border-color: #DC143C;
+              border-width: 1px; }
             /* -------------------------------------
                 OTHER STYLES THAT MIGHT BE USEFUL
             ------------------------------------- */
