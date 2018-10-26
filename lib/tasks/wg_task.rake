@@ -1,4 +1,4 @@
-require_relative '../jobs/wohnungs_job'
+require_relative '../wohnungs_job'
 
 namespace :wg do
   desc 'Run the job'

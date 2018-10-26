@@ -1,19 +1,3 @@
-require_relative '../modules/os'
-require_relative '../modules/icon_helper'
-if OS.mac?
-  require 'terminal-notifier'
-  require 'terminal-notifier-guard'
-  require_relative '../initializers/terminal_notifier_guard'
-elsif OS.linux?
-  require 'libnotify'
-end
-require 'pry-byebug'
-require 'httparty'
-require 'nokogiri'
-require 'colorize'
-require 'base64'
-
-
 class WohnungsJob
   extend IconHelper
 
