@@ -16,6 +16,8 @@ def require_env_keys
       SMTP_USERNAME
       SMTP_PASSWORD
       SMTP_ENABLE_STARTTLS
+      SMTP_FROM
+      EMAIL_RECIPIENTS
     ]
   )
 end
