@@ -67,7 +67,7 @@ class WohnungsJob
   attr_accessor(*(SERVICES + SERVICES.map {|s| :"#{s}_cache" }))
 
   def initialize(options = {})
-    @notification_type = options[:notification_type].to_sym if NOTIFICATION_TYPES.include?(options[:notification_type].to_sym)
+    @notification_type = options[:notification_type]&.to_sym if NOTIFICATION_TYPES.include?(options[:notification_type]&.to_sym)
     @notification_type ||= :standard
   end
 
