@@ -149,18 +149,12 @@ class WohnungsJob
         icon_path: INFO[service][:icon],
       )
     elsif OS.windows?
-      command = %{
-        Import-Module BurntToast;
-        $Text1 = New-BTText -Content '#{INFO[service][:translation]}';
-        $Text2 = New-BTText -Content 'Neue Wohnung auf #{INFO[service][:translation]}!';
-        $Image1 = New-BTImage -Source #{INFO[service][:icon]} -AppLogoOverride;
-        $Binding1 = New-BTBinding -Children $Text1, $Text2 -AppLogoOverride $Image1;
-        $Visual1 = New-BTVisual -BindingGeneric $Binding1;
-        $Content1 = New-BTContent -Visual $Visual1 -Launch '#{INFO[service][:url]}' -ActivationType Protocol;
-        Submit-BTNotification -Content $Content1;
-      }
-      command = Base64.strict_encode64(command.encode('utf-16le'))
-      system "PowerShell -EncodedCommand #{command}"
+      BurntToastNotification.show(
+        title: INFO[service][:translation],
+        body: "Neue Wohnung auf #{INFO[service][:translation]}!",
+        icon_path: INFO[service][:icon],
+        onclick_url: INFO[service][:url],
+      )
     end
   end
 
@@ -207,9 +201,11 @@ class WohnungsJob
         icon_path: ERROR_ICON,
       )
     elsif OS.windows?
-      command = %{Import-Module BurntToast; New-BurntToastNotification -AppLogo #{ERROR_ICON} -Text "SystemExit",  "The script crashed! Restart it!"}
-      command = Base64.strict_encode64(command.encode('utf-16le'))
-      system "PowerShell -EncodedCommand #{command}"
+      BurntToastNotification.show(
+        title: 'SystemExit',
+        body: "The script crashed! Restart it!",
+        icon_path: ERROR_ICON,
+      )
     end
   end
 end

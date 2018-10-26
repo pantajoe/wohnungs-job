@@ -20,6 +20,9 @@ require_relative './modules/os'
 require_relative './modules/icon_helper'
 require_relative './modules/email_helper'
 
+# Then, require the WindowsNotificationHelper
+require_relative './modules/burnt_toast_notification'
+
 # Then, require the notification libraries
 OS.switch(
   mac?:   -> {
