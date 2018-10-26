@@ -51,11 +51,16 @@ class BurntToastNotification
       command += ";\n"
     end
 
+    if @onclick_url.present?
+      command += "$Button1 = New-BTButton -Content 'Open #{@title}' -Arguments '#{@onclick_url}' -ActivationType Protocol;\n"
+      command += "$Action1 = New-BTAction -Buttons $Button1;\n"
+    end
+
     command += "$Visual1 = New-BTVisual -BindingGeneric $Binding1;\n"
     command += "$Content1 = New-BTContent -Visual $Visual1 -Duration '#{@duration}'"
 
     if @onclick_url.present?
-      command += " -Launch '#{@onclick_url}' -ActivationType Protocol;\n"
+      command += " -Launch '#{@onclick_url}' -ActivationType Protocol -Actions $Action1;\n"
     else
       command += ";\n"
     end
