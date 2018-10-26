@@ -1,4 +1,5 @@
 require 'mail'
+require_relative '../initializers/present'
 require_relative '../initializers/mail_defaults'
 
 module EmailHelper
@@ -8,14 +9,20 @@ module EmailHelper
     def send_mail(options = {})
       raise ArgumentsMissingError unless required_args_present?(options)
 
+      html_body = build_email_body(options[:html_options])
+
       mail = Mail.new do
         to      options[:recipient]
         from    ENV['SMTP_FROM']
         subject options[:subject]
 
-        html_body do
+        text_part do
+          body "Hi there, I am here to notify you of a change in the flat offers of the site #{options[:html_options][:name]}!\n\rJust click on the button to go to the site. Go to #{options[:html_options][:name]}!\n\rYou will receive further notifications as soon as I get updates from all the MS flat sites.\n\rGood luck! Happy Hunting"
+        end
+
+        html_part do
           content_type 'text/html; charset=UTF-8'
-          body build_email_body(options[:html_options])
+          body html_body
         end
       end
 
@@ -27,7 +34,7 @@ module EmailHelper
     private
 
     def required_args_present?(args)
-      args[:recipient].present? && args[:subject].present? && args[:html_body].present?
+      args[:recipient].present? && args[:subject].present? && args[:html_options].present?
     end
 
     def build_email_body(options)
@@ -163,11 +170,11 @@ module EmailHelper
                 border-radius: 5px;
                 text-align: center; }
               .btn a {
-                background-color: #ffffff;
-                border: solid 1px #{options[:button_color]};
+                background-color: #{options[:button_color]} !important;
+                border: solid 1px #{options[:button_color]} !important;
                 border-radius: 5px;
                 box-sizing: border-box;
-                color: #{options[:button_color]};
+                color: #ffffff;
                 cursor: pointer;
                 display: inline-block;
                 font-size: 14px;
@@ -177,10 +184,10 @@ module EmailHelper
                 text-decoration: none;
                 text-transform: capitalize; }
             .btn-primary table td {
-              background-color: #{options[:button_color]}; }
+              background-color: #{options[:button_color]} !important; }
             .btn-primary a {
-              background-color: #{options[:button_color]};
-              border-color: #{options[:button_color]};
+              background-color: #{options[:button_color]} !important;
+              border-color: #{options[:button_color]} !important;
               color: #ffffff; }
             /* -------------------------------------
                 OTHER STYLES THAT MIGHT BE USEFUL
@@ -280,6 +287,16 @@ module EmailHelper
           </style>
         </head>
         <body class="">
+          <!-- START: Hidden Preheader Text -->
+          <div style="display:none;font-size:1px;color:#333333;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
+            Hi there, I am here to notify you of a change in the flat offers of the site #{options[:name]}!
+          </div>
+
+          <!-- Insert &zwnj;&nbsp; hack after hidden preview text -->
+          <div style="display: none; max-height: 0px; overflow: hidden;">
+          &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+          </div>
+
           <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
             <tr>
               <td>&nbsp;</td>
@@ -478,11 +495,11 @@ module EmailHelper
                 border-radius: 5px;
                 text-align: center; }
               .btn a {
-                background-color: #ffffff;
-                border: solid 1px #DC143C;
+                background-color: #DC143C !important;
+                border: solid 1px #DC143C !important;
                 border-radius: 5px;
                 box-sizing: border-box;
-                color: #DC143C;
+                color: #FFFFFF !important;
                 cursor: pointer;
                 display: inline-block;
                 font-size: 14px;
@@ -492,10 +509,10 @@ module EmailHelper
                 text-decoration: none;
                 text-transform: capitalize; }
             .btn-primary table td {
-              background-color: #DC143C; }
+              background-color: #DC143C !important; }
             .btn-primary a {
-              background-color: #DC143C;
-              border-color: #DC143C;
+              background-color: #DC143C !important;
+              border-color: #DC143C !important;
               color: #ffffff; }
             /* -------------------------------------
                 OTHER STYLES THAT MIGHT BE USEFUL
@@ -595,6 +612,16 @@ module EmailHelper
           </style>
         </head>
         <body class="">
+          <!-- START: Hidden Preheader Text -->
+          <div style="display:none;font-size:1px;color:#333333;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
+            Hi there, I am here to notify you of an error that has occurred during my search for flats!
+          </div>
+
+          <!-- Insert &zwnj;&nbsp; hack after hidden preview text -->
+          <div style="display: none; max-height: 0px; overflow: hidden;">
+          &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+          </div>
+
           <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
             <tr>
               <td>&nbsp;</td>
