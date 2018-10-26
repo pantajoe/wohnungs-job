@@ -11,7 +11,7 @@ class BurntToastNotification
     @body        = options[:body]
     @icon_path   = options[:icon_path]
     @onclick_url = options[:onclick_url]
-    @duration    = options[:duration]
+    @duration    = %w[Short Long].include?(options[:duration]) ? options[:duration] : 'Short'
 
     raise AttributeMissingError if required_attributes_missing?
     raise URI::InvalidURIError, 'bad URI(is not URI?)' unless @onclick_url =~ URI::regexp
@@ -52,7 +52,7 @@ class BurntToastNotification
     end
 
     command += "$Visual1 = New-BTVisual -BindingGeneric $Binding1;\n"
-    command += "$Content1 = New-BTContent -Visual $Visual1"
+    command += "$Content1 = New-BTContent -Visual $Visual1 -Duration '#{@duration}'"
 
     if @onclick_url.present?
       command += " -Launch '#{@onclick_url}' -ActivationType Protocol;\n"
