@@ -13,6 +13,7 @@ gem 'nokogiri'
 gem 'rake'
 gem 'colorize'
 gem 'dotenv', github: 'bkeepers/dotenv'
+gem 'mail'
 
 group :linux do
   gem 'libnotify'

@@ -31,3 +31,4 @@ User `bundle install --without linux`
 
 ## Execution
   * Execute using `bundle exec rake wg:job`
+  * Execute `bundle exec rake wg:job[:email]` if you want to send emails instead of notifications

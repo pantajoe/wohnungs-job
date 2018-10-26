@@ -17,7 +17,9 @@ require 'base64'
 class WohnungsJob
   extend IconHelper
 
+  NOTIFICATION_TYPES = %i[standard email]
   ERROR_ICON = icon_path('failure')
+  RECIPIENTS = ENV['EMAIL_RECIPIENTS'].split(',').map(&:strip)
   SERVICES = %i[wg_gesucht immoscout24 nadann immowelt wohnungen_ms studenten_wg]
   SERVICE_VARIABLES = %i[@wg_gesucht @immoscout24 @nadann @immowelt @wohnungen_ms @studenten_wg]
   INFO =
@@ -28,6 +30,8 @@ class WohnungsJob
         translation: 'WG Gesucht',
         color: :blue,
         icon: icon_path('wg_gesucht'),
+        button_color: '#FFA500',
+        button_hover_color: '#E59502',
       },
       :@immoscout24 => {
         url: 'https://www.immobilienscout24.de/Suche/S-2/Wohnung-Miete/Umkreissuche/M_fcnster/-/-160749/2448287/-/1276010036/3/2,00-/40,00-/EURO--820,00',
@@ -35,6 +39,8 @@ class WohnungsJob
         translation: 'ImmoScout24',
         color: :magenta,
         icon: icon_path('immoscout24'),
+        button_color: '#FF8C00',
+        button_hover_color: '#E27D02',
       },
       :@nadann => {
         url: 'https://www.nadann.de/rubriken/kleinanzeigen/biete-wohnen/',
@@ -42,6 +48,8 @@ class WohnungsJob
         translation: 'NaDann',
         color: :green,
         icon: icon_path('nadann'),
+        button_color: '#006400',
+        button_hover_color: '#005600',
       },
       :@immowelt => {
         url: 'https://www.immowelt.de/liste/muenster/wohnungen/mieten?lat=51.95256&lon=7.63143&sr=3&roomi=2&rooma=3&prima=900&wflmi=40&sort=createdate%2Bdesc',
@@ -49,6 +57,8 @@ class WohnungsJob
         translation: 'Immowelt',
         color: :yellow,
         icon: icon_path('immowelt'),
+        button_color: '#FFFF00',
+        button_hover_color: '#D8D800',
       },
       :@wohnungen_ms => {
         url: 'https://wohnungen.ms/provisionsfreie-immobilien-muenster/wohnungen-angebote/',
@@ -56,6 +66,8 @@ class WohnungsJob
         translation: 'Wohnungen MS',
         color: :red,
         icon: icon_path('wohnungen_ms'),
+        button_color: '#FF6347',
+        button_hover_color: '#F44E30',
       },
       :@studenten_wg => {
         url: 'https://www.studenten-wg.de/angebote_lesen.html?detailsuche=aus&preismode=&newsort=&stadt=M%FCnster&fuer=Wohnungen&mietart=1&mbsuche=Frauen+oder+M%E4nner&zimin=2&zimax=3',
@@ -63,12 +75,17 @@ class WohnungsJob
         translation: 'Studenten WG',
         color: :cyan,
         icon: icon_path('studenten_wg'),
+        button_color: '#00FFFF',
+        button_hover_color: '#01C6C6',
       },
     }
 
   attr_accessor(*(SERVICES + SERVICES.map {|s| :"#{s}_cache" }))
 
-  def self.perform
+  def self.perform(options = {})
+    @notification_type = options[:notification_type] if NOTIFICATION_TYPES.include?(options[:notification_type])
+    @notification_type ||= :standard
+
     loop do
       perform_task
       sleep(30)
@@ -88,8 +105,18 @@ class WohnungsJob
       rescue Net::OpenTimeout, Errno::ETIMEDOUT, SocketError, Net::ReadTimeout, OpenSSL::SSL::SSLError, Errno::ECONNRESET, Errno::ECONNREFUSED
         next
       rescue StandardError => e
-        notify_exit!
-        raise SystemExit, "The script crashed with an error: #{e}"
+        case @notification_type
+        when :standard
+          notify_exit!
+          puts "The script crashed with an error: #{e}".white.on_red
+        when :email
+          notify_email_with_error!(e)
+          notify_exit!
+          next
+        else
+          notify_exit!
+          puts "The script crashed with an error: #{e}".white.on_red
+        end
       end
 
       instance_variable_set cache_service, Nokogiri::HTML(response)
@@ -119,6 +146,8 @@ class WohnungsJob
   private
 
   def self.notify(service)
+    return notify_with_email(service) if @noficiation_type == :email
+
     if OS.mac?
       TerminalNotifier::Guard.success(
         "Neue Wohnung auf #{INFO[service][:translation]}!",
@@ -136,7 +165,6 @@ class WohnungsJob
         icon_path: INFO[service][:icon],
       )
     elsif OS.windows?
-      # TODO: images and emails!!!
       command = %{
         Import-Module BurntToast;
         $Text1 = New-BTText -Content '#{INFO[service][:translation]}';
@@ -150,6 +178,32 @@ class WohnungsJob
       command = Base64.strict_encode64(command.encode('utf-16le'))
       system "PowerShell -EncodedCommand #{command}"
     end
+  end
+
+  def self.notify_with_email(service)
+    RECIPIENTS.each do |recipient|
+      EmailHelper.send_mail(
+        recipient: recipient,
+        subject:   "Neue Wohnung auf #{INFO[service][:translation]}!",
+        html_body_options: {
+          url:                INFO[service][:url],
+          name:               INFO[service][:translation],
+          button_color:       INFO[service][:button_color],
+          button_hover_color: INFO[service][:button_hover_color],
+        },
+      )
+    end
+  end
+
+  def self.notify_email_with_error!(error)
+    EmailHelper.send_mail(
+      recipient: RECIPIENTS.first,
+      subject:   "The Build Crashed!",
+      html_body_options: {
+        error: true,
+        error_object: error,
+      },
+    )
   end
 
   def self.notify_exit!
