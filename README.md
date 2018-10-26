@@ -18,7 +18,7 @@ User `bundle install --without linux`
   * execute `ridk install` and don't specify any options; just press Enter
   * Then open Windows PowerShell and execute `Install-Module -Name BurntToast`
   * In the PowerShell, execute `Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser` and also ` Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine`
-  * Remember to install Make [here](http://gnuwin32.sourceforge.net/downlinks/make.php)
+  * Remember to install [Make](http://gnuwin32.sourceforge.net/downlinks/make.php) and [Grep](https://netix.dl.sourceforge.net/project/gnuwin32/grep/2.5.4/grep-2.5.4-setup.exe)
   * Afterwards, add Make to your PATH: `"C:\Program Files (x86)\GnuWin32\bin"`
   * Then install bundler with `gem install bundler`
   * Finally, execute `bundle install --without mac, linux`
