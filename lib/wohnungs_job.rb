@@ -2,6 +2,8 @@
 require_relative './initializers/dotenv'
 # Then, require the switch method
 require_relative './initializers/switch'
+# Then, require #present? and #blank? methods.
+require_relative './initializers/present'
 
 # Then, require all gems
 require 'mail'
@@ -20,18 +22,18 @@ require_relative './modules/os'
 require_relative './modules/icon_helper'
 require_relative './modules/email_helper'
 
-# Then, require the WindowsNotificationHelper
-require_relative './modules/burnt_toast_notification'
-
 # Then, require the notification libraries
 OS.switch(
-  mac?:   -> {
+  mac?:     -> {
     require 'terminal-notifier'
     require 'terminal-notifier-guard'
     require_relative './initializers/terminal_notifier_guard'
   },
-  linux?: -> {
+  linux?:   -> {
     require 'libnotify'
+  },
+  windows?: -> {
+    require_relative './modules/burnt_toast_notification'
   }
 )
 
