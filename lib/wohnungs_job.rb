@@ -1,3 +1,5 @@
+# In the beginning, require function Dotenv#require_keys
+require_relative './initializers/dotenv_require_keys'
 # First, require all environment variables
 require_relative './initializers/dotenv'
 # Then, require the switch method

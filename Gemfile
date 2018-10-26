@@ -12,7 +12,7 @@ gem 'httparty'
 gem 'nokogiri'
 gem 'rake'
 gem 'colorize'
-gem 'dotenv', github: 'bkeepers/dotenv'
+gem 'dotenv'
 gem 'mail'
 
 group :linux do
