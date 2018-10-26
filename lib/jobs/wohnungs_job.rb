@@ -66,17 +66,25 @@ class WohnungsJob
 
   attr_accessor(*(SERVICES + SERVICES.map {|s| :"#{s}_cache" }))
 
-  def self.perform(options = {})
-    @notification_type = options[:notification_type] if NOTIFICATION_TYPES.include?(options[:notification_type])
+  def initialize(options = {})
+    @notification_type = options[:notification_type].to_sym if NOTIFICATION_TYPES.include?(options[:notification_type].to_sym)
     @notification_type ||= :standard
+  end
 
+  def self.perform(options = {})
+    WohnungsJob.new(options).perform
+  end
+
+  def perform
     loop do
       perform_task
       sleep(30)
     end
   end
 
-  def self.perform_task
+  private
+
+  def perform_task
     puts '###################################################'
     puts '###################################################'
 
@@ -127,10 +135,8 @@ class WohnungsJob
     puts "\n"
   end
 
-  private
-
-  def self.notify(service)
-    return notify_with_email(service) if @noficiation_type == :email
+  def notify(service)
+    return notify_with_email(service) if @notification_type == :email
 
     if OS.mac?
       TerminalNotifier::Guard.success(
@@ -158,12 +164,12 @@ class WohnungsJob
     end
   end
 
-  def self.notify_with_email(service)
+  def notify_with_email(service)
     RECIPIENTS.each do |recipient|
       EmailHelper.send_mail(
         recipient: recipient,
         subject:   "Neue Wohnung auf #{INFO[service][:translation]}!",
-        html_body_options: {
+        html_options: {
           url:                INFO[service][:url],
           name:               INFO[service][:translation],
           button_color:       INFO[service][:button_color],
@@ -173,18 +179,18 @@ class WohnungsJob
     end
   end
 
-  def self.notify_email_with_error!(error)
+  def notify_email_with_error!(error)
     EmailHelper.send_mail(
       recipient: RECIPIENTS.first,
       subject:   "The Build Crashed!",
-      html_body_options: {
+      html_options: {
         error: true,
         error_object: error,
       },
     )
   end
 
-  def self.notify_exit!
+  def notify_exit!
     if OS.mac?
       TerminalNotifier::Guard.failed(
         "The script crashed! Restart it!",
