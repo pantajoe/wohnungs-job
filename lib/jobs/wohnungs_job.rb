@@ -100,14 +100,14 @@ class WohnungsJob
         case @notification_type
         when :standard
           notify_exit!
-          puts "The script crashed with an error: #{e}".white.on_red
+          puts "The script crashed with an error #{e.class}: #{e}".white.on_red
         when :email
           notify_email_with_error!(e)
           notify_exit!
           next
         else
           notify_exit!
-          puts "The script crashed with an error: #{e}".white.on_red
+          puts "The script crashed with an error #{e.class}: #{e}".white.on_red
         end
       end
 
