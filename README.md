@@ -36,3 +36,4 @@ Run `bundle install --without linux`
 ## Execution
   * Execute using `bundle exec rake wg:job`
   * Execute `bundle exec rake wg:job[email]` if you want to send emails instead of notifications
+    - For this, execute `cp .env.local .env` and edit your `.env`-File accordingly
