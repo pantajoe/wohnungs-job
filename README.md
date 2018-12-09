@@ -6,11 +6,13 @@
 
 ### On Linux
 
-Use `bundle install --without mac`
+Install the library first: `sudo apt-get install libnotify1` (And if that does not work. Try `sudo apt-get install libnotify`)
+Run `bundle install --without mac`
 
 ### On MacOS
 
-User `bundle install --without linux`
+Install terminal-notifier: `brew install terminal-notifier`
+Run `bundle install --without linux`
 
 ### On Windows
   * Install RubyInstaller for [32-Bit](https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-2.4.4-2/rubyinstaller-devkit-2.4.4-2-x86.exe) or for [64-Bit](https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-2.4.4-2/rubyinstaller-devkit-2.4.4-2-x64.exe) with DevKit for Version 2.4.4
