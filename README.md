@@ -7,11 +7,13 @@
 ### On Linux
 
 Install the library first: `sudo apt-get install libnotify1` (And if that does not work. Try `sudo apt-get install libnotify`)
+
 Run `bundle install --without mac`
 
 ### On MacOS
 
 Install terminal-notifier: `brew install terminal-notifier`
+
 Run `bundle install --without linux`
 
 ### On Windows
