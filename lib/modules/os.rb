@@ -4,7 +4,7 @@ module OS
   end
 
   def self.mac?
-   (/darwin/ =~ RUBY_PLATFORM) != nil
+    (/darwin/ =~ RUBY_PLATFORM) != nil
   end
 
   def self.unix?
