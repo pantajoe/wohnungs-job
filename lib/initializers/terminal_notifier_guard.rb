@@ -1,21 +1,21 @@
-require_relative '../modules/os'
+require_relative "../modules/os"
 
 if OS.mac?
   module TerminalNotifier
     module Guard
-      OSX_BUILT_IN_SOUNDS = { notify: 'Blow', failed: 'Sosumi', pending: 'Morse', success: 'Hero' }.freeze
+      OSX_BUILT_IN_SOUNDS = { notify: "Blow", failed: "Sosumi", pending: "Morse", success: "Hero" }.freeze
 
       def self.execute(verbose, options)
         if available? && installed?
           type = options.delete(:type)
           # appIcon (left image); GUARD_ICON (guard icon_path)
           options.merge!({ contentImage: (options[:icon_path] || icon(type)), sound: sound(type) })
-          command = [bin_path, *options.map { |k,v| ["-#{k}", v.to_s] }.flatten]
-          if RUBY_VERSION < '1.9'
-            require 'shellwords'
+          command = [bin_path, *options.map { |k, v| ["-#{k}", v.to_s] }.flatten]
+          if RUBY_VERSION < "1.9"
+            require "shellwords"
             command = Shellwords.shelljoin(command)
           end
-          result = ''
+          result = ""
           IO.popen(command) do |stdout|
             output = stdout.read
             STDOUT.print output if verbose
@@ -32,6 +32,7 @@ if OS.mac?
         type ||= :notify
         OSX_BUILT_IN_SOUNDS[type.to_sym]
       end
+
       module_function :sound
     end
   end

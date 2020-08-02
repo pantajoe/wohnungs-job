@@ -1,11 +1,12 @@
-require_relative '../modules/os'
+require_relative "../modules/os"
 
 if OS.windows?
   module Dotenv
     class Error < StandardError; end
-     class MissingKeys < Error # :nodoc:
+
+    class MissingKeys < Error # :nodoc:
       def initialize(keys)
-        key_word = "key#{keys.size > 1 ? 's' : ''}"
+        key_word = "key#{keys.size > 1 ? "s" : ""}"
         super("Missing required configuration #{key_word}: #{keys.inspect}")
       end
     end

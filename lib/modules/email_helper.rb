@@ -1,6 +1,6 @@
-require 'mail'
-require_relative '../initializers/present'
-require_relative '../initializers/mail_defaults'
+require "mail"
+require_relative "../initializers/present"
+require_relative "../initializers/mail_defaults"
 
 module EmailHelper
   class ArgumentsMissingError < StandardError; end
@@ -12,8 +12,8 @@ module EmailHelper
       html_body = build_email_body(options[:html_options])
 
       mail = Mail.new do
-        to      options[:recipient]
-        from    ENV['SMTP_FROM']
+        to options[:recipient]
+        from ENV["SMTP_FROM"]
         subject options[:subject]
 
         text_part do
@@ -21,7 +21,7 @@ module EmailHelper
         end
 
         html_part do
-          content_type 'text/html; charset=UTF-8'
+          content_type "text/html; charset=UTF-8"
           body html_body
         end
       end

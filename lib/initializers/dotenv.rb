@@ -1,2 +1,2 @@
-require 'dotenv'
-Dotenv.load('.env')
+require "dotenv"
+Dotenv.load(".env")

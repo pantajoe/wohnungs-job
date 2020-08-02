@@ -1,20 +1,21 @@
-require 'uri'
+require "uri"
 
 class BurntToastNotification
   class AttributeMissingError < StandardError; end
+
   REQUIRED_ATTRIBUTES = %i[title]
 
   attr_accessor :title, :body, :icon_path, :onclick_url
 
   def initialize(options)
-    @title       = options[:title]
-    @body        = options[:body]
-    @icon_path   = options[:icon_path]
+    @title = options[:title]
+    @body = options[:body]
+    @icon_path = options[:icon_path]
     @onclick_url = options[:onclick_url]
-    @duration    = %w[Short Long].include?(options[:duration]) ? options[:duration] : 'Short'
+    @duration = %w[Short Long].include?(options[:duration]) ? options[:duration] : "Short"
 
     raise AttributeMissingError if required_attributes_missing?
-    raise URI::InvalidURIError, 'bad URI(is not URI?)' unless @onclick_url =~ URI::regexp
+    raise URI::InvalidURIError, "bad URI(is not URI?)" unless @onclick_url =~ URI::regexp
   end
 
   def self.show(options)
@@ -29,12 +30,12 @@ class BurntToastNotification
   private
 
   def execute(command)
-    command = Base64.strict_encode64(command.encode('utf-16le'))
+    command = Base64.strict_encode64(command.encode("utf-16le"))
     system "PowerShell -EncodedCommand #{command}"
   end
 
   def build_powershell_command
-    command  = "Import-Module BurntToast;\n"
+    command = "Import-Module BurntToast;\n"
     command += "$Text1 = New-BTText -Content '#{@title}';\n"
     command += "$Text2 = New-BTText -Content '#{@body}';\n" if @body.present?
     command += "$Image1 = New-BTImage -Source #{@icon_path} -AppLogoOverride;\n" if @icon_path.present?
